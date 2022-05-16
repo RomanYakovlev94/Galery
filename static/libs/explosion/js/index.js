@@ -1,6 +1,5 @@
 const defaultOptions = {
-    linkClass: '.cardLink',
-    linkImageClass: '.cardImage',
+    linkClass: '.card',
 };
 
 const explosionClassName = 'explosion';
@@ -31,7 +30,23 @@ const explosionActiveImageClassName = 'explosionImage_Active';
 const explosionNextShowingImageClassName = 'explosionImage_NextShowing';
 const explosionNextHiddenImageClassName = 'explosionImage_NextHidden';
 
-class ExplositionGallery {}
+class ExplositionGallery {
+    constructor(elementNode, options = defaultOptions){
+        this.options = {
+            ...defaultOptions,
+            ...options
+        };
+        this.containerNode = elementNode;
+        this.linkNodes = elementNode.querySelectorAll(this.options.linkClass);
+
+        this.minWidth = 1023;
+        this.minHeight = 600;
+        this.padding = 2 * 16;
+        this.showingCount = 4;
+        this.currentIndex = 0;
+        this.size = this.linkNodes.lenght;
+    }
+}
 
 /**
  * Helpers
