@@ -31,7 +31,7 @@ const explosionNextShowingImageClassName = 'explosionImage_NextShowing';
 const explosionNextHiddenImageClassName = 'explosionImage_NextHidden';
 
 class ExplositionGallery {
-    constructor(elementNode, options = defaultOptions){
+    constructor(elementNode, options){
         this.options = {
             ...defaultOptions,
             ...options
@@ -47,7 +47,39 @@ class ExplositionGallery {
 
         this.size = this.linkNodes.lenght;
         //Инициализация модального окна
-        
+        //делаем копию картинок и кладем вниз body
+        this.initModal();
+    }
+
+    initModal() {
+        this.modalContainerNode = document.createElement("div");
+        this.modalContainerNode.className = explosionClassName;
+
+        this.modalContainerNode.innerHTML = `
+            <div class="${explosionSummaryClassName}">
+                <div class="${explosionSummaryContentClassName}">
+                    <h2 class="${explosionTitleClassName}"></h2>
+                    <p class="${explosionDescriptionClassName}"></p>
+                </div>
+            </div>    
+            <div class="${explosionControlsClassName}">
+                <button class="${explosionCloseClassName}"></button>
+                <div class="${explosionNavClassName}">
+                    <button class="${explosionNavClassName} ${explosionNavPrevClassName}"></button>
+                    <div class="${explosionCouterClassName}">
+                        1/${this.size}
+                    </div>
+                    <button class="${explosionNavClassName} ${explosionNavNextClassName}"></button>
+                </div>
+            </div>
+            <div class="${explosionImagesClassName}">
+                ${Array.from(this.linkNodes).map((linkNode) => `
+                    <img src="${linkNode.getAttribute('href')}" alt="${linkNode.dataset.title}" class="${explosionImageClassName}" data-title="${linkNode.dataset.title}" data-description="${linkNode.dataset.description}" />
+                `).join('')}
+            </div>
+        `;
+
+        document.body.appendChild(this.modalContainerNode);
     }
 }
 
