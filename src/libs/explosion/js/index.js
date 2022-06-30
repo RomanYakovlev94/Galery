@@ -49,6 +49,7 @@ class ExplositionGallery {
         //Инициализация модального окна
         //делаем копию картинок и кладем вниз body
         this.initModal();
+        this.events();
     }
 
     initModal() {
@@ -78,8 +79,31 @@ class ExplositionGallery {
                 `).join('')}
             </div>
         `;
-
         document.body.appendChild(this.modalContainerNode);
+    }
+
+    events() {
+        this.containerNode.addEventListener('click', this.activateGallery);
+    }
+
+    activateGallery = (event) => {
+        event.preventDefault();
+        const linkNode = event.target.closest('a');
+
+        if (!linkNode){
+            return;
+        }
+
+        this.currentIndex = Array.from(this.linkNodes).findIndex((itemNode) =>
+            linkNode === itemNode);
+        this.modalContainerNode.classList.add(explosionOpenedClassName);
+
+        fadeIn(this.modalContainerNode, () => {
+            this.modalContainerNode.classList.remove(explosionOpeningClassName);
+            this.modalContainerNode.classList.add(explosionOpenedClassName);
+        })
+
+        //console.log(this.currentIndex);
     }
 }
 
