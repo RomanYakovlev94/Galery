@@ -45,7 +45,7 @@ class ExplositionGallery {
         this.showingCount = 4;
         this.currentIndex = 0;
 
-        this.size = this.linkNodes.lenght;
+        this.size = this.linkNodes.lenght;//почему то не работает присвоение ниже в счетчике
         //Инициализация модального окна
         //делаем копию картинок и кладем вниз body
         this.initModal();
@@ -68,7 +68,7 @@ class ExplositionGallery {
                 <div class="${explosionNavClassName}">
                     <button class="${explosionNavClassName} ${explosionNavPrevClassName}"></button>
                     <div class="${explosionCouterClassName}">
-                        1/${this.size}
+                        1/${this.linkNodes.length}
                     </div>
                     <button class="${explosionNavClassName} ${explosionNavNextClassName}"></button>
                 </div>
