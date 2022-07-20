@@ -79,7 +79,11 @@ class ExplositionGallery {
                 `).join('')}
             </div>
         `;
+
         document.body.appendChild(this.modalContainerNode);
+
+        this.explosionImageNodes = this.modalContainerNode.querySelectorAll(`.${explosionImageClassName}`);
+
     }
 
     events() {
@@ -90,7 +94,11 @@ class ExplositionGallery {
         event.preventDefault();
         const linkNode = event.target.closest('a');
 
-        if (!linkNode){
+        if (
+            !linkNode
+            || this.modalContainerNode.classList.contains(explosionOpenedClassName)
+            || this.modalContainerNode.classList.contains(explosionOpeningClassName)
+        ){
             return;
         }
 
@@ -101,9 +109,53 @@ class ExplositionGallery {
         fadeIn(this.modalContainerNode, () => {
             this.modalContainerNode.classList.remove(explosionOpeningClassName);
             this.modalContainerNode.classList.add(explosionOpenedClassName);
-        })
+            this.switchChanges();
+        });
 
-        //console.log(this.currentIndex);
+        this.setInitSizesToImages();
+        this.setInitPositionsToImages();
+    }
+
+    setInitSizesToImages() {
+        this.linkNodes.forEach ((linkNode, index) => {
+            const data = linkNode.getBoundingClientRect();
+            //console.log(data); // При помощи этого мы можем олучить много полезнай информации о изображениях
+            this.explosionImageNodes[index].style.width = data.width + 'px'; 
+            this.explosionImageNodes[index].style.height = data.height + 'px'; 
+        });
+    }
+
+    setInitPositionsToImages() {
+        this.linkNodes.forEach ((linkNode, index) => {
+            const data = linkNode.getBoundingClientRect();
+            //console.log(data); // При помощи этого мы можем олучить много полезнай информации о изображениях
+            this.setPositionStyles(
+                this.explosionImageNodes[index],
+                data.left,
+                data.top,
+            );
+        });
+    }
+
+    setPositionStyles(element, x, y){
+        element.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+    }
+
+    switchChanges(){
+        //установить фотографии на нужные места
+        //установить состояния контролов
+        //изменить каунтер
+        //установить изменить описание
+        this.setCurrentState
+    }
+
+    setCurrentState() {
+        this.explosionPrevHiddenImageNodes = [];
+        this.explosionPrevShowingImageNodes = [];
+        this.explosionActiveImageNodes = [];
+        this.explosionNextShowingImageNodes = [];
+        this.explosionNextHiddenImageNodes = [];
+
     }
 }
 
