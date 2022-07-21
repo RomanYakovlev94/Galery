@@ -109,6 +109,7 @@ class ExplositionGallery {
             this.modalContainerNode.classList.remove(explosionOpeningClassName);
             this.modalContainerNode.classList.add(explosionOpenedClassName);
             this.switchChanges();
+            //console.log("its okay");
         });
 
         this.setInitSizesToImages();
@@ -145,10 +146,12 @@ class ExplositionGallery {
         //установить состояния контролов
         //изменить каунтер
         //установить изменить описание
-        this.setCurrentState
+        this.setCurrentState();
+        //console.log("its okay2");
     }
 
-    setCurrentState() {
+    setCurrentState(){
+        //console.log("its okay 3");
         this.explosionPrevHiddenImageNodes = [];
         this.explosionPrevShowingImageNodes = [];
         this.explosionActiveImageNodes = [];
@@ -165,9 +168,9 @@ class ExplositionGallery {
             } else if (index < this.currentIndex) {
                 this.explosionPrevShowingImageNodes.unshift(imageNode);
             }else if (index === this.currentIndex) {
-                this.explosionActiveImageNodes.push(imageNode);
+                this.explosionActiveImageNodes.push(imageNode)
             }else if (index <= this.currentIndex + this.showingCount){
-                this.explosionNextHiddenImageNodes.push(imageNode);
+                this.explosionNextShowingImageNodes.push(imageNode)
             }else {
 
             }
@@ -182,20 +185,95 @@ class ExplositionGallery {
     }
 
     setGalleryStyles(){
-        const imageWidth = this.LinkNodes[0].offsetWidth;
-        const imageHeight = this.LinkNodes [0].offsetHeight;
-        const modalwidth = Math.max(this.minWidth, window.innerWidth);
+        const imageWidth = this.linkNodes[0].offsetWidth;
+        const imageHeight = this.linkNodes[0].offsetHeight;
+        const modalWidth = Math.max(this.minWidth, window.innerWidth);
         const modalHeight = Math.max(this.minHeight, window.innerHeight);
 
         this.explosionPrevHiddenImageNodes.forEach((node) => (
             this. setImageStyles (node, {
-                top: -1.5 * modalHeight,
-                left: 0.31 * modalwidth,
+                top: -modalHeight,
+                left: 0.31 * modalWidth,
                 opacity: 0.1,
                 zIndex: 1,
                 scale: 0.4,
             })
         ));
+
+        this.setImageStyles(this.explosionPrevShowingImageNodes[0], {
+            top: (modalHeight - imageHeight),
+            left: 0.32 * modalWidth,
+            opacity: 0.4,
+            zIndex: 4,
+            scale: 0.75,
+        });
+
+        this.setImageStyles(this.explosionPrevShowingImageNodes[1], {
+            top: 0.405 * modalHeight,
+            left: 0.11 * modalWidth,
+            opacity: 0.3,
+            zIndex: 3,
+            scale: 0.6,
+        });
+
+        this.setImageStyles(this.explosionPrevShowingImageNodes[2], {
+            top: 0.095 * modalHeight,
+            left: 0.17 * modalWidth,
+            opacity: 0.2,
+            zIndex: 2,
+            scale: 0.5,
+        });
+        
+        this.setImageStyles(this.explosionPrevShowingImageNodes[3], {
+            top: -0.3 * modalHeight,
+            left: 0.31 * modalWidth,
+            opacity: 0.1,
+            zIndex: 2,
+            scale: 0.4,
+        });
+
+        this.explosionActiveImageNodes.forEach((node) => (
+            this.setImageStyles(node, {
+                top: (modalHeight - imageHeight) /2,
+                left: (modalWidth - imageWidth) /2,
+                opacity: 1,
+                zIndex: 5,
+                scale: 1.2,
+            })
+        ));
+
+        this.setImageStyles(this.explosionNextShowingImageNodes[0], {
+            top: 0,
+            left: 0.52 * modalWidth,
+            opacity: 0.4,
+            zIndex: 4,
+            scale: 0.75,
+        });
+
+        this.setImageStyles(this.explosionNextShowingImageNodes[1], {
+            top: 0.12 * modalHeight,
+            left: 0.73 * modalWidth,
+            opacity: 0.3,
+            zIndex: 3,
+            scale: 0.6,
+        });
+
+        this.setImageStyles(this.explosionNextShowingImageNodes[2], {
+            top: 0.43 * modalHeight,
+            left: 0.67 * modalWidth,
+            opacity: 0.2,
+            zIndex: 2,
+            scale: 0.5,
+        });
+
+        this.setImageStyles(this.explosionNextShowingImageNodes[3], {
+            top: 0.67 * modalHeight,
+            left: 0.53 * modalWidth,
+            opacity: 0.1,
+            zIndex: 1,
+            scale: 0.4,
+        });
+
     }  
     
     setImageStyles(element, {top, left, opacity, zIndex, scale}){
@@ -204,10 +282,9 @@ class ExplositionGallery {
         }
 
         element.style.opacity = opacity;
-        element.style.transform = `translate3d(${left.tofixed(1)}px, ${top.tofixed(1)}px, 0) scale(${scale})`;
+        element.style.transform = `translate3d(${left.toFixed(1)}px, ${top.toFixed(1)}px, 0) scale(${scale})`;
         element.style.zIndex = zIndex;
     }
-
 
 }
 
