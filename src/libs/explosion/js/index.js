@@ -102,9 +102,8 @@ class ExplositionGallery {
             return;
         }
 
-        this.currentIndex = Array.from(this.linkNodes).findIndex((itemNode) =>
-            linkNode === itemNode);
-        this.modalContainerNode.classList.add(explosionOpenedClassName);
+        this.currentIndex = Array.from(this.linkNodes).findIndex((itemNode) =>linkNode === itemNode);
+        this.modalContainerNode.classList.add(explosionOpeningClassName);
 
         fadeIn(this.modalContainerNode, () => {
             this.modalContainerNode.classList.remove(explosionOpeningClassName);
@@ -155,8 +154,61 @@ class ExplositionGallery {
         this.explosionActiveImageNodes = [];
         this.explosionNextShowingImageNodes = [];
         this.explosionNextHiddenImageNodes = [];
+        //разделение фотографий по массивам
 
+        this.currentIndex
+        this.showingCount
+
+        this.explosionImageNodes.forEach((imageNode, index) => {
+            if(index + this.showingCount < this.currentIndex) {
+                this.explosionPrevHiddenImageNodes.unshift(imageNode);
+            } else if (index < this.currentIndex) {
+                this.explosionPrevShowingImageNodes.unshift(imageNode);
+            }else if (index === this.currentIndex) {
+                this.explosionActiveImageNodes.push(imageNode);
+            }else if (index <= this.currentIndex + this.showingCount){
+                this.explosionNextHiddenImageNodes.push(imageNode);
+            }else {
+
+            }
+        });
+        this.setGalleryStyles();
+        //проверка формирования массивов
+        // console.log(this.explosionPrevHiddenImageNodes);
+        // console.log(this.explosionPrevShowingImageNodes);
+        // console.log(this.explosionActiveImageNodes);
+        // console.log(this.explosionNextShowingImageNodes);
+        // console.log(this.explosionNextHiddenImageNodes);
     }
+
+    setGalleryStyles(){
+        const imageWidth = this.LinkNodes[0].offsetWidth;
+        const imageHeight = this.LinkNodes [0].offsetHeight;
+        const modalwidth = Math.max(this.minWidth, window.innerWidth);
+        const modalHeight = Math.max(this.minHeight, window.innerHeight);
+
+        this.explosionPrevHiddenImageNodes.forEach((node) => (
+            this. setImageStyles (node, {
+                top: -1.5 * modalHeight,
+                left: 0.31 * modalwidth,
+                opacity: 0.1,
+                zIndex: 1,
+                scale: 0.4,
+            })
+        ));
+    }  
+    
+    setImageStyles(element, {top, left, opacity, zIndex, scale}){
+        if(!element){
+            return;
+        }
+
+        element.style.opacity = opacity;
+        element.style.transform = `translate3d(${left.tofixed(1)}px, ${top.tofixed(1)}px, 0) scale(${scale})`;
+        element.style.zIndex = zIndex;
+    }
+
+
 }
 
 /**
