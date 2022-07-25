@@ -274,6 +274,15 @@ class ExplositionGallery {
             scale: 0.4,
         });
 
+        this.explosionNextHiddenImageNodes.forEach((node) => (
+            this.setImageStyles(node,{
+                top: modalHeight,
+                left: 0.53 * modalWidth,
+                opacity: 0.1,
+                zIndex: 1,
+                scale: 0.4,
+            })
+        ));
     }  
     
     setImageStyles(element, {top, left, opacity, zIndex, scale}){
